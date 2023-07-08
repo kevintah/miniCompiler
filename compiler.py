@@ -1,6 +1,7 @@
 import copy
 import re
 
+# Tokenizes the input expression by breaking it into individual tokens
 def tokenize(input_expression):
     current = 0
     tokens = []
@@ -60,6 +61,7 @@ def tokenize(input_expression):
     return tokens
 
 
+# Parses the tokens into an abstract syntax tree (AST)
 def parse(tokens):
     current = 0
 
@@ -103,6 +105,7 @@ def parse(tokens):
     return ast
 
 
+# Traverses the AST and applies handlers to different node types
 def traverse(ast, node_handlers):
     def traverse_array(array, parent):
         for child in array:
@@ -125,6 +128,7 @@ def traverse(ast, node_handlers):
     traverse_node(ast, None)
 
 
+# Transforms the AST by replacing CallExpression nodes with a different structure
 def transform(ast):
     new_ast = {
         'type': 'Program',
@@ -167,6 +171,7 @@ def transform(ast):
     return new_ast
 
 
+# Generates code from the transformed AST
 def generate_code(node):
     if node['type'] == 'Program':
         return '\n'.join([code for code in map(generate_code, node['body'])])
@@ -185,6 +190,7 @@ def generate_code(node):
         raise TypeError(node['type'])
 
 
+# Compiles the input expression into code
 def compile_program(input_expression):
     tokens = tokenize(input_expression)
     ast = parse(tokens)
@@ -222,5 +228,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-
